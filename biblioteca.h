@@ -1,6 +1,8 @@
 #ifndef BIBLIOTECA_H_INCLUDED
 #define BIBLIOTECA_H_INCLUDED
-#include <string.h>
+#include <iostream>
+#include <fstream>
+#include <string>
 
 class Cliente
 {
@@ -79,6 +81,75 @@ double Cliente::getClienteSaldoByName()
 double Cliente::getClienteSaldoById()
 {
 
+}
+
+void cadastroCliente(char *, int, int, char) //nome, data_entrada, ID, sx
+{
+    ofstream myfile ("example.txt");
+    if (myfile.is_open())
+    {
+        myfile << "This is a line.\n";
+        myfile << "This is another line.\n";
+        myfile.close();
+    }
+  else cout << "Unable to open file";
+}
+
+void ler (void){
+    string line;
+    ifstream myfile ("example.txt");
+    if (myfile.is_open())
+    {
+        while (! myfile.eof() )
+        {
+            getline (myfile,line);
+            cout << line << endl;
+        }
+    myfile.close();
+  }
+
+  else cout << "Unable to open file"; 
+}
+
+// reading a text file
+
+using namespace std;
+
+int main () {
+  string line;
+  ifstream myfile ("example.txt");
+  if (myfile.is_open())
+  {
+    while (! myfile.eof() )
+    {
+      getline (myfile,line);
+      cout << line << endl;
+    }
+    myfile.close();
+  }
+
+  else cout << "Unable to open file"; 
+
+  return 0;
+}[/code]
+
+
+enquanto esse outro tem tudo o q você precisa pra escrever nele:
+[code]// writing on a text file
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main () {
+  ofstream myfile ("example.txt");
+  if (myfile.is_open())
+  {
+    myfile << "This is a line.\n";
+    myfile << "This is another line.\n";
+    myfile.close();
+  }
+  else cout << "Unable to open file";
+  return 0;
 }
 
 #endif 
