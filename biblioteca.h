@@ -5,7 +5,7 @@
 class Cliente
 {
 public: 
-    void cadastroCliente(char *, int, int, char); //nome, data_entrada, ID, sexo
+    void cadastroCliente(char *, int, int, char); //nome, data_entrada, ID, sx
     void excluirCliente(char *);
     void editarCliente(char *);
     void saldoMaiorQ(double); // lista devedores maior que x
