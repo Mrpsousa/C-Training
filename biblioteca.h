@@ -2,23 +2,28 @@
 #define BIBLIOTECA_H_INCLUDED
 #include <iostream>
 #include <fstream>
+#include <string.h>
 #include <string>
+
+using namespace std;
 
 class Cliente
 {
 public: 
-    void cadastroCliente(char *, int, int, char); //nome, data_entrada, ID, sx
-    void excluirCliente(char *);
-    void editarCliente(char *);
+    void ler(void);
+    void cadastroCliente(char *, int, int, char *); 
+    void excluirCliente(char*);
+    void editarCliente(char*);
     void saldoMaiorQ(double); // lista devedores maior que x
     void saldoMenorQ(double); // lista devedores menor que x
     //void consultarDividaTotal(void);
     //void efetuarPagamento(std::string);
-    void consultaCliente(char *); // lista os dados do cliente x
-    void consultaSaldoCliente(char *); // mostra o saldo do cliente x
-    void setClienteNome(char *);
+    void consultaCliente(char*); // lista os dados do cliente x
+    void consultaSaldoCliente(char*); // mostra o saldo do cliente x
+    void setClienteNome(char*);
     void setClienteDataEntrada(int);
-    void setClienteSexo(char);
+    void setClienteCpf(char*);
+    void setClientefone(char*);
     int getDataEntrada();
     int getClienteId();
     char *getClienteName();
@@ -32,8 +37,9 @@ private:
     char nome[100];
     int date;
     int id;
-    char sexo;
+    char cpf[12];
     double saldo;
+    char fone[100];
 };
 
 //Sets
@@ -42,14 +48,20 @@ void Cliente::setClienteNome(char *nomeIn)
     strcpy(nome, nomeIn);
 }
 
+
+void Cliente::setClientefone(char *foneIn)
+{
+    strcpy(nome, foneIn);
+}
+
 void Cliente::setClienteDataEntrada(int dateIn)
 {
     date = dateIn;
 }
 
-void Cliente::setClienteSexo(char sexoIn)
+void Cliente::setClienteCpf(char *cpfIn)
 {
-    sexo = sexoIn;
+    strcpy(cpf, cpfIn);
 }
 
 //Gets
@@ -83,19 +95,26 @@ double Cliente::getClienteSaldoById()
 
 }
 
-void cadastroCliente(char *, int, int, char) //nome, data_entrada, ID, sx
+void Cliente::cadastroCliente(char *nome, int dataEntrada, char *cpf, char *fone) 
 {
-    ofstream myfile ("example.txt");
+    Cliente *person = new Cliente();
+
+    person->setClienteNome(nome);
+    person->setClienteDataEntrada(dataEntrada);
+    person->setClienteCpf(cpf);
+    person->setClientefone(fone);
+
+   ofstream myfile ("example.txt");
     if (myfile.is_open())
     {
-        myfile << "This is a line.\n";
-        myfile << "This is another line.\n";
+        myfile << person;
         myfile.close();
     }
   else cout << "Unable to open file";
 }
 
-void ler (void){
+
+void Cliente::ler (void){
     string line;
     ifstream myfile ("example.txt");
     if (myfile.is_open())
@@ -109,47 +128,6 @@ void ler (void){
   }
 
   else cout << "Unable to open file"; 
-}
-
-// reading a text file
-
-using namespace std;
-
-int main () {
-  string line;
-  ifstream myfile ("example.txt");
-  if (myfile.is_open())
-  {
-    while (! myfile.eof() )
-    {
-      getline (myfile,line);
-      cout << line << endl;
-    }
-    myfile.close();
-  }
-
-  else cout << "Unable to open file"; 
-
-  return 0;
-}[/code]
-
-
-enquanto esse outro tem tudo o q você precisa pra escrever nele:
-[code]// writing on a text file
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main () {
-  ofstream myfile ("example.txt");
-  if (myfile.is_open())
-  {
-    myfile << "This is a line.\n";
-    myfile << "This is another line.\n";
-    myfile.close();
-  }
-  else cout << "Unable to open file";
-  return 0;
 }
 
 #endif 

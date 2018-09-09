@@ -7,8 +7,8 @@ int main(int argc, char const *argv[])
 {
     Cliente *teste = new Cliente();
 
-    teste->setClienteNome("antonio");
+    teste->cadastroCliente("casa",123,324,"carro");
 
-    cout << teste->getClienteName();
+   // teste->ler();
     return 0;
 }
