@@ -10,8 +10,9 @@ using namespace std;
 class Cliente
 {
 public: 
-    void ler(void);
-    void cadastroCliente(char *, int, int, char *); 
+    void ler(void); // para teste
+    string toString(void);
+    void cadastroCliente(char*, char*, char*, char*); 
     void excluirCliente(char*);
     void editarCliente(char*);
     void saldoMaiorQ(double); // lista devedores maior que x
@@ -21,12 +22,14 @@ public:
     void consultaCliente(char*); // lista os dados do cliente x
     void consultaSaldoCliente(char*); // mostra o saldo do cliente x
     void setClienteNome(char*);
-    void setClienteDataEntrada(int);
+    void setClienteDataEntrada(char*);
     void setClienteCpf(char*);
     void setClientefone(char*);
-    int getDataEntrada();
     int getClienteId();
     char *getClienteName();
+    char *getClienteDataEntrada();
+    char *getClienteCpf();
+    char *getClienteFone();
     char *getClienteNameById();
     double getClienteSaldoByName();
     double getClienteSaldoById();
@@ -35,7 +38,7 @@ public:
 
 private:
     char nome[100];
-    int date;
+    char date[10];
     int id;
     char cpf[12];
     double saldo;
@@ -54,9 +57,9 @@ void Cliente::setClientefone(char *foneIn)
     strcpy(nome, foneIn);
 }
 
-void Cliente::setClienteDataEntrada(int dateIn)
+void Cliente::setClienteDataEntrada(char *dateIn)
 {
-    date = dateIn;
+    strcpy(date, dateIn);
 }
 
 void Cliente::setClienteCpf(char *cpfIn)
@@ -65,21 +68,30 @@ void Cliente::setClienteCpf(char *cpfIn)
 }
 
 //Gets
-int Cliente::getDataEntrada(void)
+char* Cliente::getClienteDataEntrada(void)
 {
-    return date;
+    return this->date;
 }
 
 int Cliente::getClienteId()
 {
-    return id;
+    return this->id;
 }
 
 char *Cliente::getClienteName()
 {
-    return nome;
+    return this->nome;
 }
 
+char *Cliente::getClienteCpf()
+{
+    return this->cpf;
+}
+
+char *Cliente::getClienteFone()
+{
+    return this->fone;
+}
 char *Cliente::getClienteNameById()
 {
 
@@ -95,22 +107,35 @@ double Cliente::getClienteSaldoById()
 
 }
 
-void Cliente::cadastroCliente(char *nome, int dataEntrada, char *cpf, char *fone) 
+string Cliente::toString(void)
+{
+    string nomeL, dataL, cpfL, foneL, block;
+    
+    nomeL = getClienteName(); 
+    dataL = getClienteDataEntrada();
+    cpfL = getClienteCpf();
+    foneL = getClienteFone();
+
+   return block += nomeL + "#" + dataL + "#" + cpfL + "#" + foneL + "\n";
+
+}
+void Cliente::cadastroCliente(char *nomeIn, char *dataEntradaIn, char *cpfIn, char *foneIn) 
 {
     Cliente *person = new Cliente();
 
-    person->setClienteNome(nome);
-    person->setClienteDataEntrada(dataEntrada);
-    person->setClienteCpf(cpf);
-    person->setClientefone(fone);
+    person->setClienteNome(nomeIn);
+    person->setClienteDataEntrada(dataEntradaIn);
+    person->setClienteCpf(cpfIn);
+    person->setClientefone(foneIn);
 
    ofstream myfile ("example.txt");
     if (myfile.is_open())
     {
-        myfile << person;
+        myfile << person->toString();
         myfile.close();
     }
   else cout << "Unable to open file";
+  
 }
 
 
