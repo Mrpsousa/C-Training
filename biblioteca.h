@@ -46,52 +46,26 @@ private:
 };
 
 //Sets
-void Cliente::setClienteNome(char *nomeIn)
-{
-    strcpy(nome, nomeIn);
-}
+void Cliente::setClienteNome(char *nomeIn) {strcpy(this->nome, nomeIn);}
 
+void Cliente::setClientefone(char *foneIn) {strcpy(this->fone, foneIn);}
 
-void Cliente::setClientefone(char *foneIn)
-{
-    strcpy(nome, foneIn);
-}
+void Cliente::setClienteDataEntrada(char *dateIn) {strcpy(this->date, dateIn);}
 
-void Cliente::setClienteDataEntrada(char *dateIn)
-{
-    strcpy(date, dateIn);
-}
-
-void Cliente::setClienteCpf(char *cpfIn)
-{
-    strcpy(cpf, cpfIn);
-}
+void Cliente::setClienteCpf(char *cpfIn) {strcpy(this->cpf, cpfIn);}
 
 //Gets
-char* Cliente::getClienteDataEntrada(void)
-{
-    return this->date;
-}
+char* Cliente::getClienteDataEntrada(void) {return this->date;}
 
-int Cliente::getClienteId()
-{
-    return this->id;
-}
+int Cliente::getClienteId() {return this->id;}
 
-char *Cliente::getClienteName()
-{
-    return this->nome;
-}
+char *Cliente::getClienteName() {return this->nome;}
 
-char *Cliente::getClienteCpf()
-{
-    return this->cpf;
-}
+char *Cliente::getClienteCpf() {return this->cpf;}
 
-char *Cliente::getClienteFone()
-{
-    return this->fone;
-}
+char *Cliente::getClienteFone() {return this->fone;}
+
+
 char *Cliente::getClienteNameById()
 {
 
@@ -116,9 +90,9 @@ string Cliente::toString(void)
     cpfL = getClienteCpf();
     foneL = getClienteFone();
 
-   return block += nomeL + "#" + dataL + "#" + cpfL + "#" + foneL + "\n";
-
+   return block += nomeL + "#" + foneL  + "#" + dataL + "#"  + cpfL + "#" +"\n";
 }
+
 void Cliente::cadastroCliente(char *nomeIn, char *dataEntradaIn, char *cpfIn, char *foneIn) 
 {
     Cliente *person = new Cliente();

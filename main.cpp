@@ -7,7 +7,10 @@ int main(int argc, char const *argv[])
 {
     Cliente *teste = new Cliente();
 
-    teste->cadastroCliente("casa","123","324","carro");
+    //vai assim Nome,data,CPF,Fone
+    //salva assim Fone#data#CPF#Nome
+    
+    teste->cadastroCliente("Nome","data","CPF","Fone");
 
    teste->ler();
     return 0;
