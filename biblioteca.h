@@ -4,6 +4,9 @@
 #include <fstream>
 #include <string.h>
 #include <string>
+#include <time.h>
+#include <stdlib.h>
+
 
 using namespace std;
 
@@ -42,7 +45,7 @@ private:
     int id;
     char cpf[12];
     double saldo;
-    char fone[100];
+    char fone[20];
 };
 
 //Sets
