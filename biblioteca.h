@@ -69,7 +69,7 @@ char *Cliente::getClienteCpf() {return this->cpf;}
 
 char *Cliente::getClienteFone() {return this->fone;}
 
-//métodos
+//métodos.
 void consultaCliente (char *nome)
 {
     string line, aux;
