@@ -9,7 +9,7 @@ int main(int argc, char const *argv[])
     bool insert = true;
     //vai assim Nome,data,CPF,Fone
     //salva assim Fone#data#CPF#Nome
-    
+    teste->consultaCliente("jose");
     do{
         Cliente *client = new Cliente();
         char nome[100];
@@ -17,27 +17,27 @@ int main(int argc, char const *argv[])
         char cpf[12];
         char fone[20];
         int opc;
-
-        cout << "Insira os dados do Cliente: "<< endl;
-        cout << "Nome: ";
+        
+        cout << "Insira os dados do Cliente: "<< endl;                           
+        cout << "Nome: ";                                                        
         cin >> nome;
-        cout << "CPF: ";
+        cout << "CPF: ";                                                         
         cin >> cpf;
-        cout << "Telefone: ";
+        cout << "Telefone: ";                                                    
         cin >> fone;    
-        cout << "Data: ";
+        cout << "Data: ";                                                        
         cin >> data;
     
         client->cadastroCliente(nome,data,cpf,fone); 
         delete[]client;
-        //insert = false;
-        cout << "Deseja inserir outro cliente?  1 = SIM  /=/  0 = NÃO" << endl;
+        
+        cout << "Deseja inserir outro cliente?  1 = SIM  /=/  0 = NÃO" << endl;   
         cin >> opc;
         if(!opc)
             insert = false;
         system("clear");
     }while(insert);
    
-   teste->ler();
+  // teste->ler();
     return 0;
 }

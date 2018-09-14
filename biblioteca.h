@@ -36,6 +36,7 @@ public:
     char *getClienteNameById();
     double getClienteSaldoByName();
     double getClienteSaldoById();
+    char *split();
     
 
 
@@ -68,6 +69,29 @@ char *Cliente::getClienteCpf() {return this->cpf;}
 
 char *Cliente::getClienteFone() {return this->fone;}
 
+//métodos
+void consultaCliente (char *nome)
+{
+    string line, aux;
+    int cont = 0, i = 0;
+    ifstream myfile ("example.txt");
+    if (myfile.is_open())
+    {
+        while (! myfile.eof() )
+        {
+            getline (myfile,line);
+            while(line[i] != '#')
+            {
+                aux[i]; i++;
+            }
+            if(aux.compare(nome) == 0)
+                cout << aux << endl;
+        }
+    myfile.close();
+  }
+
+    else cout << "Unable to open file"; 
+}
 
 char *Cliente::getClienteNameById()
 {
@@ -93,7 +117,7 @@ string Cliente::toString(void)
     cpfL = getClienteCpf();
     foneL = getClienteFone();
 
-   return block += nomeL + "#" + foneL  + "#" + dataL + "#"  + cpfL + "#" +"\n";
+   return block += nomeL + "#" + foneL  + "@" + dataL + "&"  + cpfL + "$" +"\n";
 }
 
 void Cliente::cadastroCliente(char *nomeIn, char *dataEntradaIn, char *cpfIn, char *foneIn) 
@@ -104,15 +128,23 @@ void Cliente::cadastroCliente(char *nomeIn, char *dataEntradaIn, char *cpfIn, ch
     person->setClienteDataEntrada(dataEntradaIn);
     person->setClienteCpf(cpfIn);
     person->setClientefone(foneIn);
-
-   ofstream myfile ("example.txt");
+    
+    fstream myfile ("example.txt", ios::out|ios::app);
     if (myfile.is_open())
     {
         myfile << person->toString();
         myfile.close();
+        /*X
+
+        FILE *fp;
+        if ((fp = fopen(“teste.txt”, “a”))==NULL){
+            printf(“Erro ao abrir o arquivo!!!\n”);
+        exit(1);
+        int fclose(FILE *fp);
+        */
     }
-  else cout << "Unable to open file";
-  
+    else cout << "Unable to open file";
+    
 }
 
 
