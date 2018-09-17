@@ -7,8 +7,10 @@
 #include <time.h>
 #include <stdlib.h>
 
+OLHA : https://www.inf.pucrs.br/~pinho/PRGSWB/STL/stl.html
 
 using namespace std;
+
 
 class Cliente
 {
@@ -22,7 +24,6 @@ public:
     void saldoMenorQ(double); // lista devedores menor que x
     //void consultarDividaTotal(void);
     //void efetuarPagamento(std::string);
-    void consultaCliente(char*); // lista os dados do cliente x
     void consultaSaldoCliente(char*); // mostra o saldo do cliente x
     void setClienteNome(char*);
     void setClienteDataEntrada(char*);
@@ -49,6 +50,12 @@ private:
     char fone[20];
 };
 
+void consultaCliente(char*); // lista os dados do cliente x
+void loadCliente(void);
+void printCliente(Cliente *);
+std::set <Cliente> arv;
+
+
 //Sets
 void Cliente::setClienteNome(char *nomeIn) {strcpy(this->nome, nomeIn);}
 
@@ -69,29 +76,6 @@ char *Cliente::getClienteCpf() {return this->cpf;}
 
 char *Cliente::getClienteFone() {return this->fone;}
 
-//métodos
-void consultaCliente (char *nome)
-{
-    string line, aux;
-    int cont = 0, i = 0;
-    ifstream myfile ("example.txt");
-    if (myfile.is_open())
-    {
-        while (! myfile.eof() )
-        {
-            getline (myfile,line);
-            while(line[i] != '#')
-            {
-                aux[i]; i++;
-            }
-            if(aux.compare(nome) == 0)
-                cout << aux << endl;
-        }
-    myfile.close();
-  }
-
-    else cout << "Unable to open file"; 
-}
 
 char *Cliente::getClienteNameById()
 {
@@ -108,6 +92,11 @@ double Cliente::getClienteSaldoById()
 
 }
 
+void Cliente::printCliente(class *input)
+{
+    cout << "Nome: " << input->getClienteName() << "\n" << "CPF: " << input->getClienteCpf() << "\n" << "Telefone: " << input->getClienteFone() << "\n" << "Data de Entrada: " << input->getClienteDataEntrada() << endl;
+}
+
 string Cliente::toString(void)
 {
     string nomeL, dataL, cpfL, foneL, block;
@@ -117,7 +106,7 @@ string Cliente::toString(void)
     cpfL = getClienteCpf();
     foneL = getClienteFone();
 
-   return block += nomeL + "#" + foneL  + "@" + dataL + "&"  + cpfL + "$" +"\n";
+   return block += nomeL + "\n" + foneL  + "\n" + dataL + "\n"  + cpfL + "\n";
 }
 
 void Cliente::cadastroCliente(char *nomeIn, char *dataEntradaIn, char *cpfIn, char *foneIn) 
@@ -134,21 +123,39 @@ void Cliente::cadastroCliente(char *nomeIn, char *dataEntradaIn, char *cpfIn, ch
     {
         myfile << person->toString();
         myfile.close();
-        /*X
-
-        FILE *fp;
-        if ((fp = fopen(“teste.txt”, “a”))==NULL){
-            printf(“Erro ao abrir o arquivo!!!\n”);
-        exit(1);
-        int fclose(FILE *fp);
-        */
     }
     else cout << "Unable to open file";
     
 }
 
 
-void Cliente::ler (void){
+ 
+void Cliente::loadCliente(void)
+ {
+    string line;
+    Cliente *aux = new Cliente;
+    ifstream myfile ("example.txt");
+    if (myfile.is_open())
+    {
+        while (! myfile.eof() )
+        {
+            getline (myfile,line);
+            aux->setClienteName(line);
+            getline (myfile,line);
+            aux->setClienteFone(line);
+            getline (myfile,line);
+            aux->setClienteDataEntrada(line);
+            getline (myfile,line);
+            aux->setClienteCpf(line);
+            
+        }
+    myfile.close();
+    printCliente(aux);
+  }else cout << "Unable to open file"; 
+}
+
+
+/*void Cliente::ler (void){
     string line;
     ifstream myfile ("example.txt");
     if (myfile.is_open())
@@ -157,11 +164,12 @@ void Cliente::ler (void){
         {
             getline (myfile,line);
             cout << line << endl;
+            
         }
     myfile.close();
   }
 
   else cout << "Unable to open file"; 
-}
+}*/
 
 #endif 

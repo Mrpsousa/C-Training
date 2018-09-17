@@ -9,7 +9,7 @@ int main(int argc, char const *argv[])
     bool insert = true;
     //vai assim Nome,data,CPF,Fone
     //salva assim Fone#data#CPF#Nome
-    teste->consultaCliente("jose");
+    //consultaCliente("jose");
     do{
         Cliente *client = new Cliente();
         char nome[100];
