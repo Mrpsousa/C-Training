@@ -6,75 +6,74 @@
 #include <string>
 #include <time.h>
 #include <stdlib.h>
+#include <set>
+#include <vector>
 
-OLHA : https://www.inf.pucrs.br/~pinho/PRGSWB/STL/stl.html
+//OLHA : https://www.inf.pucrs.br/~pinho/PRGSWB/STL/stl.html
 
 using namespace std;
-
 
 class Cliente
 {
 public: 
     void ler(void); // para teste
     string toString(void);
-    void cadastroCliente(char*, char*, char*, char*); 
+    void cadastroCliente(string, string, string, string); 
     void excluirCliente(char*);
     void editarCliente(char*);
     void saldoMaiorQ(double); // lista devedores maior que x
     void saldoMenorQ(double); // lista devedores menor que x
     //void consultarDividaTotal(void);
     //void efetuarPagamento(std::string);
-    void consultaSaldoCliente(char*); // mostra o saldo do cliente x
-    void setClienteNome(char*);
-    void setClienteDataEntrada(char*);
-    void setClienteCpf(char*);
-    void setClientefone(char*);
+    void consultaSaldoCliente(string); // mostra o saldo do cliente x
+    void setClienteNome(string);
+    void setClienteDataEntrada(string);
+    void setClienteCpf(string);
+    void setClienteFone(string);
     int getClienteId();
-    char *getClienteName();
-    char *getClienteDataEntrada();
-    char *getClienteCpf();
-    char *getClienteFone();
+    string getClienteName();
+    string getClienteDataEntrada();
+    string getClienteCpf();
+    string getClienteFone();
     char *getClienteNameById();
     double getClienteSaldoByName();
     double getClienteSaldoById();
     char *split();
-    
-
+    void printCliente(void);
+    void loadCliente(void);
 
 private:
-    char nome[100];
-    char date[10];
+    string nome;
+    string date;
     int id;
-    char cpf[12];
+    string cpf;
     double saldo;
-    char fone[20];
+    string fone;
 };
+vector <Cliente> myvetor;
 
 void consultaCliente(char*); // lista os dados do cliente x
-void loadCliente(void);
-void printCliente(Cliente *);
-std::set <Cliente> arv;
 
 
 //Sets
-void Cliente::setClienteNome(char *nomeIn) {strcpy(this->nome, nomeIn);}
+void Cliente::setClienteNome(string nomeIn) {this->nome = nomeIn; }
 
-void Cliente::setClientefone(char *foneIn) {strcpy(this->fone, foneIn);}
+void Cliente::setClienteFone(string foneIn) {this->fone = foneIn;}
 
-void Cliente::setClienteDataEntrada(char *dateIn) {strcpy(this->date, dateIn);}
+void Cliente::setClienteDataEntrada(string dateIn) {this->date = dateIn;}
 
-void Cliente::setClienteCpf(char *cpfIn) {strcpy(this->cpf, cpfIn);}
+void Cliente::setClienteCpf(string cpfIn) {this->cpf = cpfIn;}
 
 //Gets
-char* Cliente::getClienteDataEntrada(void) {return this->date;}
+string Cliente::getClienteDataEntrada(void) {return this->date;}
 
 int Cliente::getClienteId() {return this->id;}
 
-char *Cliente::getClienteName() {return this->nome;}
+string Cliente::getClienteName() {return this->nome;}
 
-char *Cliente::getClienteCpf() {return this->cpf;}
+string Cliente::getClienteCpf() {return this->cpf;}
 
-char *Cliente::getClienteFone() {return this->fone;}
+string Cliente::getClienteFone() {return this->fone;}
 
 
 char *Cliente::getClienteNameById()
@@ -92,11 +91,6 @@ double Cliente::getClienteSaldoById()
 
 }
 
-void Cliente::printCliente(class *input)
-{
-    cout << "Nome: " << input->getClienteName() << "\n" << "CPF: " << input->getClienteCpf() << "\n" << "Telefone: " << input->getClienteFone() << "\n" << "Data de Entrada: " << input->getClienteDataEntrada() << endl;
-}
-
 string Cliente::toString(void)
 {
     string nomeL, dataL, cpfL, foneL, block;
@@ -109,14 +103,14 @@ string Cliente::toString(void)
    return block += nomeL + "\n" + foneL  + "\n" + dataL + "\n"  + cpfL + "\n";
 }
 
-void Cliente::cadastroCliente(char *nomeIn, char *dataEntradaIn, char *cpfIn, char *foneIn) 
+void Cliente::cadastroCliente(string nomeIn, string dataEntradaIn, string cpfIn, string foneIn) 
 {
     Cliente *person = new Cliente();
 
     person->setClienteNome(nomeIn);
     person->setClienteDataEntrada(dataEntradaIn);
     person->setClienteCpf(cpfIn);
-    person->setClientefone(foneIn);
+    person->setClienteFone(foneIn);
     
     fstream myfile ("example.txt", ios::out|ios::app);
     if (myfile.is_open())
@@ -129,28 +123,41 @@ void Cliente::cadastroCliente(char *nomeIn, char *dataEntradaIn, char *cpfIn, ch
 }
 
 
+void Cliente::printCliente(void)
+{
+    Cliente *client = new Cliente;
+    client->loadCliente();
+
+    vector<Cliente>::iterator it = myvetor.begin();
+    for(it; it != myvetor.end(); it++)
+    {
+       cout << "Nome: " << it->getClienteName() << "\n" << "CPF: " << it->getClienteCpf() << "\n" << "Telefone: " << it->getClienteFone() << "\n" << "Data de Entrada: " << it->getClienteDataEntrada() << endl;
+    }
+    
+}
+
  
 void Cliente::loadCliente(void)
  {
     string line;
+    char *aux_str;
     Cliente *aux = new Cliente;
     ifstream myfile ("example.txt");
     if (myfile.is_open())
     {
-        while (! myfile.eof() )
+        while (!myfile.eof() )
         {
-            getline (myfile,line);
-            aux->setClienteName(line);
+            getline(myfile,line);
+            aux->setClienteNome(line);
             getline (myfile,line);
             aux->setClienteFone(line);
             getline (myfile,line);
             aux->setClienteDataEntrada(line);
             getline (myfile,line);
             aux->setClienteCpf(line);
-            
+            myvetor.push_back(*aux); // leio do arq de texto e jogo no vector
         }
     myfile.close();
-    printCliente(aux);
   }else cout << "Unable to open file"; 
 }
 

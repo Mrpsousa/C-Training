@@ -5,17 +5,13 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-    Cliente *teste = new Cliente();
+    Cliente *client = new Cliente();
     bool insert = true;
     //vai assim Nome,data,CPF,Fone
     //salva assim Fone#data#CPF#Nome
     //consultaCliente("jose");
     do{
-        Cliente *client = new Cliente();
-        char nome[100];
-        char data[10];
-        char cpf[12];
-        char fone[20];
+        string nome, cpf, data, fone;
         int opc;
         
         cout << "Insira os dados do Cliente: "<< endl;                           
@@ -28,16 +24,18 @@ int main(int argc, char const *argv[])
         cout << "Data: ";                                                        
         cin >> data;
     
-        client->cadastroCliente(nome,data,cpf,fone); 
-        delete[]client;
+        client->cadastroCliente(nome,data,cpf,fone);
+        //client1 = client->loadCliente(); 
+        //delete[]client;
         
         cout << "Deseja inserir outro cliente?  1 = SIM  /=/  0 = NÃO" << endl;   
         cin >> opc;
         if(!opc)
             insert = false;
         system("clear");
+        //consertar o print
     }while(insert);
-   
+   client->printCliente();
   // teste->ler();
     return 0;
 }
