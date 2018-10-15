@@ -26,6 +26,7 @@ public:
     //void consultarDividaTotal(void);
     //void efetuarPagamento(std::string);
     void consultaSaldoCliente(string); // mostra o saldo do cliente x
+    void consultaCliente(string);
     void setClienteNome(string);
     void setClienteDataEntrada(string);
     void setClienteCpf(string);
@@ -35,13 +36,12 @@ public:
     string getClienteDataEntrada();
     string getClienteCpf();
     string getClienteFone();
-    char *getClienteNameById();
     double getClienteSaldoByName();
     double getClienteSaldoById();
     char *split();
-    void printCliente(void);
+    void printAllCliente(void);
     void loadCliente(void);
-
+    void frontClienteAdd(void);
 private:
     string nome;
     string date;
@@ -75,11 +75,6 @@ string Cliente::getClienteCpf() {return this->cpf;}
 
 string Cliente::getClienteFone() {return this->fone;}
 
-
-char *Cliente::getClienteNameById()
-{
-
-}
 
 double Cliente::getClienteSaldoByName()
 {
@@ -123,7 +118,7 @@ void Cliente::cadastroCliente(string nomeIn, string dataEntradaIn, string cpfIn,
 }
 
 
-void Cliente::printCliente(void)
+void Cliente::printAllCliente(void)
 {
     Cliente *client = new Cliente;
     client->loadCliente();
@@ -161,6 +156,62 @@ void Cliente::loadCliente(void)
   }else cout << "Unable to open file"; 
 }
 
+
+
+
+void Cliente::consultaCliente(string nome)
+{
+    Cliente *client = new Cliente;
+    int i = 0;
+
+    client->loadCliente();
+    vector<Cliente>::iterator it = myvetor.begin();
+    
+    for(; it != myvetor.end(); it++)
+    {
+        if(it->getClienteName() == nome)
+            cout << "Nome: " << it->getClienteName() << "\n" << "CPF: " << it->getClienteCpf() << "\n" << "Telefone: " << it->getClienteFone() << "\n" << "Data de Entrada: " << it->getClienteDataEntrada() << endl;
+        
+        i++;
+    }
+
+
+}
+
+
+void Cliente::frontClienteAdd()
+{
+    Cliente *client = new Cliente();
+        bool insert = true;
+        //vai assim Nome,data,CPF,Fone
+        //salva assim Fone#data#CPF#Nome
+        //consultaCliente("jose");
+        do{
+            string nome, cpf, data, fone;
+            int opc;
+            
+            cout << "Insira os dados do Cliente: "<< endl;                           
+            cout << "Nome: ";                                                        
+            cin >> nome;
+            cout << "CPF: ";                                                         
+            cin >> cpf;
+            cout << "Telefone: ";                                                    
+            cin >> fone;    
+            cout << "Data: ";                                                        
+            cin >> data;
+        
+            client->cadastroCliente(nome,data,cpf,fone);
+            //client1 = client->loadCliente(); 
+            //delete[]client;
+            
+            cout << "Deseja inserir outro cliente?  1 = SIM  /=/  0 = NÃO" << endl;   
+            cin >> opc;
+            if(!opc)
+                insert = false;
+            system("clear");
+            //consertar o print
+        }while(insert);
+}
 
 /*void Cliente::ler (void){
     string line;
