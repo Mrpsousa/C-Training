@@ -26,7 +26,7 @@ public:
     //void consultarDividaTotal(void);
     //void efetuarPagamento(std::string);
     void consultaSaldoCliente(string); // mostra o saldo do cliente x
-    void consultaCliente(string);
+    void consultaCliente(void);
     void setClienteNome(string);
     void setClienteDataEntrada(string);
     void setClienteCpf(string);
@@ -159,23 +159,39 @@ void Cliente::loadCliente(void)
 
 
 
-void Cliente::consultaCliente(string nome)
+void Cliente::consultaCliente(void)
 {
     Cliente *client = new Cliente;
-    int i = 0;
+    bool consut = true, flag = false;
+    string nome;
+    int i = 0, opc;
 
     client->loadCliente();
     vector<Cliente>::iterator it = myvetor.begin();
-    
-    for(; it != myvetor.end(); it++)
-    {
-        if(it->getClienteName() == nome)
-            cout << "Nome: " << it->getClienteName() << "\n" << "CPF: " << it->getClienteCpf() << "\n" << "Telefone: " << it->getClienteFone() << "\n" << "Data de Entrada: " << it->getClienteDataEntrada() << endl;
-        
-        i++;
-    }
-
-
+    do
+    {    
+        cout <<"Nome do Cliente: ";
+        cin >> nome;
+        for(; it != myvetor.end(); it++)
+        {
+            if(it->getClienteName() == nome)
+            {
+                cout << "Nome: " << it->getClienteName() << "\n" << "CPF: " << it->getClienteCpf() << "\n" << "Telefone: " << it->getClienteFone() << "\n" << "Data de Entrada: " << it->getClienteDataEntrada() << endl;             
+                flag = true;
+            }
+            i++;
+            
+        }
+            if (flag == false)
+                cout << "ERRO. Não foi encontrado cliente com esse nome." << endl;
+            flag = false;
+            cout << "Deseja Consultar outro cliente?  1 = SIM  /=/  0 = NÃO" << endl;   
+            cin >> opc;
+            if(!opc)
+                consut = false;
+            system("clear");
+            //consertar o print
+        }while(consut);
 }
 
 
