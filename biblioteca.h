@@ -191,6 +191,7 @@ void Cliente::consultaCliente(void)
                 consut = false;
             system("clear");
             //consertar o print
+            it = myvetor.begin();
         }while(consut);
 }
 
