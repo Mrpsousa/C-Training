@@ -6,6 +6,7 @@
 #include <string>
 #include <time.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <set>
 #include <vector>
 
@@ -25,7 +26,7 @@ public:
     //void efetuarPagamento(std::string);
     void consultaSaldoCliente(string); // mostra o saldo do cliente x
     void consultaCliente(void);
-    void addClienteCompra(string, double);
+    int addClienteCompra(void);
     void setClienteNome(string);
     void setClienteSaldo(double);
     void setClienteDataEntrada(string);
@@ -80,10 +81,18 @@ string Cliente::getClienteCpf() {return this->cpf;}
 string Cliente::getClienteFone() {return this->fone;}
 
 
-void addClienteCompra(string nomeIn, double valorIn)
+int Cliente::addClienteCompra()
 {
-    Cliente *client = new Cliente;
+    string nomeIn; 
+    double valorIn;
 
+    cout << "Cliente: " << endl;
+    cin >> nomeIn;
+    cout << "Valor da Compra: " << endl;
+    cin >> valorIn;
+    
+    Cliente *client = new Cliente;
+    remove("example.txt");
     client->loadCliente();
     vector<Cliente>::iterator it = myvetor.begin();
     do
@@ -92,10 +101,22 @@ void addClienteCompra(string nomeIn, double valorIn)
         {
             if(it->getClienteName() == nomeIn)
             {
-                it->setClienteSaldo(valorIn);    
+                it->setClienteSaldo(valorIn);
+                fstream myfile ("example.txt", ios::out|ios::app);
+                for(; it != myvetor.end(); it++)
+                {       
+                    if (myfile.is_open())
+                    {
+                        myfile << it->toString();
+                        myfile.close();
+                    }
+                    else cout << "Unable to open file"; 
+                }
+                return 0;    
             }
         }
-    }
+    }while(it != myvetor.end());
+    cout << "Cliente Não existe" << endl;
     //quando terminar a operação de add valor de compra, deleter arquivo txt, 
     //realocar todo pessoal do vetor em 1 texto novo
 }
@@ -111,14 +132,15 @@ double Cliente::getClienteSaldoById()
 
 string Cliente::toString(void)
 {
-    string nomeL, dataL, cpfL, foneL, block;
+    string nomeL, dataL, cpfL, foneL, saldoL, block;
     
+    saldoL = getClienteSaldo();
     nomeL = getClienteName(); 
     dataL = getClienteDataEntrada();
     cpfL = getClienteCpf();
     foneL = getClienteFone();
 
-   return block += nomeL + "\n" + foneL  + "\n" + dataL + "\n"  + cpfL + "\n";
+   return block += nomeL + "\n" + foneL  + "\n" + dataL + "\n"  + cpfL + "\n" + saldoL + "\n";
 }
 
 void Cliente::cadastroCliente(string nomeIn, string dataEntradaIn, string cpfIn, string foneIn) 
@@ -129,6 +151,7 @@ void Cliente::cadastroCliente(string nomeIn, string dataEntradaIn, string cpfIn,
     person->setClienteDataEntrada(dataEntradaIn);
     person->setClienteCpf(cpfIn);
     person->setClienteFone(foneIn);
+    person->setClienteSaldo(0);
     
     fstream myfile ("example.txt", ios::out|ios::app);
     if (myfile.is_open())
@@ -149,7 +172,7 @@ void Cliente::printAllCliente(void)
     vector<Cliente>::iterator it = myvetor.begin();
     for(it; it != myvetor.end(); it++)
     {
-       cout << "Nome: " << it->getClienteName() << "\n" << "CPF: " << it->getClienteCpf() << "\n" << "Telefone: " << it->getClienteFone() << "\n" << "Data de Entrada: " << it->getClienteDataEntrada() << endl;
+       cout << "Nome: " << it->getClienteName() << "\n" << "CPF: " << it->getClienteCpf() << "\n" << "Telefone: " << it->getClienteFone() << "\n" << "Data de Entrada: " << it->getClienteDataEntrada() << "\n" << "Saldo: " << it->getClienteSaldo() << endl;
     }
     
 }
@@ -199,7 +222,7 @@ void Cliente::consultaCliente(void)
         {
             if(it->getClienteName() == nome)
             {
-                cout << "Nome: " << it->getClienteName() << "\n" << "CPF: " << it->getClienteCpf() << "\n" << "Telefone: " << it->getClienteFone() << "\n" << "Data de Entrada: " << it->getClienteDataEntrada() << endl;             
+                cout << "Nome: " << it->getClienteName() << "\n" << "CPF: " << it->getClienteCpf() << "\n" << "Telefone: " << it->getClienteFone() << "\n" << "Data de Entrada: " << it->getClienteDataEntrada() << "\n" << "Saldo: " << it->getClienteSaldo() << endl;             
                 flag = true;
             }
             i++;

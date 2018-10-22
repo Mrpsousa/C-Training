@@ -14,6 +14,7 @@ int main(int argc, char const *argv[])
     cout << "1 : Adiciona Cliente" << endl;
     cout << "2 : Consulta Cliente" << endl;
     cout << "3 : Listar Clientes" << endl;
+    cout << "4 : Efetuar Venda" << endl;
     cin >> opc;
     system("clear");
     switch (opc)
@@ -25,8 +26,14 @@ int main(int argc, char const *argv[])
             client->consultaCliente(); 
             break;
         case 3:
-            cout << "Função nao Implementada ainda" << endl; 
-            break;  
+            client->printAllCliente();
+            break;
+        case 4:
+            if (client->addClienteCompra())
+                break;
+            else
+                cout << "Erro ao efetuar Compra" << endl;
+                break;  
     }      
     return 0;
 }
