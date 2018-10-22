@@ -21,18 +21,19 @@ public:
     void cadastroCliente(string, string, string, string); 
     void excluirCliente(char*);
     void editarCliente(char*);
-    void saldoMaiorQ(double); // lista devedores maior que x
-    void saldoMenorQ(double); // lista devedores menor que x
     //void consultarDividaTotal(void);
     //void efetuarPagamento(std::string);
     void consultaSaldoCliente(string); // mostra o saldo do cliente x
     void consultaCliente(void);
+    void addClienteCompra(string, double);
     void setClienteNome(string);
+    void setClienteSaldo(double);
     void setClienteDataEntrada(string);
     void setClienteCpf(string);
     void setClienteFone(string);
     int getClienteId();
     string getClienteName();
+    double getClienteSaldo();
     string getClienteDataEntrada();
     string getClienteCpf();
     string getClienteFone();
@@ -54,9 +55,10 @@ vector <Cliente> myvetor;
 
 void consultaCliente(char*); // lista os dados do cliente x
 
-
 //Sets
 void Cliente::setClienteNome(string nomeIn) {this->nome = nomeIn; }
+
+void Cliente::setClienteSaldo(double saldoIn) {this->saldo += saldoIn; }
 
 void Cliente::setClienteFone(string foneIn) {this->fone = foneIn;}
 
@@ -67,6 +69,8 @@ void Cliente::setClienteCpf(string cpfIn) {this->cpf = cpfIn;}
 //Gets
 string Cliente::getClienteDataEntrada(void) {return this->date;}
 
+double Cliente::getClienteSaldo() {return this->saldo;}
+
 int Cliente::getClienteId() {return this->id;}
 
 string Cliente::getClienteName() {return this->nome;}
@@ -76,6 +80,25 @@ string Cliente::getClienteCpf() {return this->cpf;}
 string Cliente::getClienteFone() {return this->fone;}
 
 
+void addClienteCompra(string nomeIn, double valorIn)
+{
+    Cliente *client = new Cliente;
+
+    client->loadCliente();
+    vector<Cliente>::iterator it = myvetor.begin();
+    do
+    {    
+        for(; it != myvetor.end(); it++)
+        {
+            if(it->getClienteName() == nomeIn)
+            {
+                it->setClienteSaldo(valorIn);    
+            }
+        }
+    }
+    //quando terminar a operação de add valor de compra, deleter arquivo txt, 
+    //realocar todo pessoal do vetor em 1 texto novo
+}
 double Cliente::getClienteSaldoByName()
 {
 
