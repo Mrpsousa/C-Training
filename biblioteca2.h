@@ -14,40 +14,35 @@
 
 using namespace std;
 
+//classe com metodos que são comuns a várias classes
 class utilities
 {
 public:
-    string toString(void);
+    string toString(Cliente *client);
 };
+
 
 class Cliente
 {
-public: 
-    void ler(void); // para teste
-    void cadastroCliente(string, string, string, string); 
-    void excluirCliente(char*);
-    void editarCliente(char*);
-    //void consultarDividaTotal(void);
-    //void efetuarPagamento(std::string);
-    void consultaSaldoCliente(string); // mostra o saldo do cliente x
-    void consultaCliente(void);
-    int addClienteCompra(void);
+public:
+    //sets
     void setClienteNome(string);
     void setClienteSaldo(double);
     void setClienteDataEntrada(string);
     void setClienteCpf(string);
     void setClienteFone(string);
+    //gets
     int getClienteId();
     string getClienteName();
     double getClienteSaldo();
     string getClienteDataEntrada();
     string getClienteCpf();
     string getClienteFone();
-    double getClienteSaldoByName();
-    double getClienteSaldoById();
-    char *split();
+    //métodos
+    void cadastroCliente(string, string, string, string); 
+    vector<Cliente> *loadCliente(void);
     void printAllCliente(void);
-    void loadCliente(void);
+    void consultaCliente(void);
     void frontClienteAdd(void);
 private:
     string nome;
@@ -58,11 +53,10 @@ private:
     string fone;
 };
 
+//vector global
 vector <Cliente> myvetor;
 
-void consultaCliente(char*); // lista os dados do cliente x
-
-//Sets
+//Sets cliente
 void Cliente::setClienteNome(string nomeIn) {this->nome = nomeIn; }
 
 void Cliente::setClienteSaldo(double saldoIn) {this->saldo += saldoIn; }
@@ -73,7 +67,7 @@ void Cliente::setClienteDataEntrada(string dateIn) {this->date = dateIn;}
 
 void Cliente::setClienteCpf(string cpfIn) {this->cpf = cpfIn;}
 
-//Gets
+//Gets cliente
 string Cliente::getClienteDataEntrada(void) {return this->date;}
 
 double Cliente::getClienteSaldo() {return this->saldo;}
@@ -87,57 +81,7 @@ string Cliente::getClienteCpf() {return this->cpf;}
 string Cliente::getClienteFone() {return this->fone;}
 
 
-int Cliente::addClienteCompra()
-{
-    string nomeIn; 
-    double valorIn;
-
-    cout << "Cliente: " << endl;
-    cin >> nomeIn;
-    cout << "Valor da Compra: " << endl;
-    cin >> valorIn;
-    
-    Cliente *client = new Cliente;
-    utilities *util = new utilities;
-
-    remove("example.txt");
-    client->loadCliente();
-    vector<Cliente>::iterator it = myvetor.begin();
-    do
-    {    
-        for(; it != myvetor.end(); it++)
-        {
-            if(it->getClienteName() == nomeIn)
-            {
-                it->setClienteSaldo(valorIn);
-                fstream myfile ("example.txt", ios::out|ios::app);
-                for(; it != myvetor.end(); it++)
-                {       
-                    if (myfile.is_open())
-                    {
-                        myfile << util->toString();
-                        myfile.close();
-                    }
-                    else cout << "Unable to open file"; 
-                }
-                return 0;    
-            }
-        }
-    }while(it != myvetor.end());
-    cout << "Cliente Não existe" << endl;
-    //quando terminar a operação de add valor de compra, deleter arquivo txt, 
-    //realocar todo pessoal do vetor em 1 texto novo
-}
-double Cliente::getClienteSaldoByName()
-{
-
-}
-
-double Cliente::getClienteSaldoById()
-{
-
-}
-
+//metodo - utilities
 string utilities::toString(Cliente *client)
 {
     string nomeL, dataL, cpfL, foneL, saldoL, block;
@@ -151,9 +95,11 @@ string utilities::toString(Cliente *client)
    return block += nomeL + "\n" + foneL  + "\n" + dataL + "\n"  + cpfL + "\n" + saldoL + "\n";
 }
 
+//método - Cliente
 void Cliente::cadastroCliente(string nomeIn, string dataEntradaIn, string cpfIn, string foneIn) 
 {
     Cliente *person = new Cliente();
+    utilities *util = new utilities();
 
     person->setClienteNome(nomeIn);
     person->setClienteDataEntrada(dataEntradaIn);
@@ -164,40 +110,27 @@ void Cliente::cadastroCliente(string nomeIn, string dataEntradaIn, string cpfIn,
     fstream myfile ("example.txt", ios::out|ios::app);
     if (myfile.is_open())
     {
-        myfile << person->toString();
+        myfile << util->toString(person);
         myfile.close();
     }
     else cout << "Unable to open file";
     
 }
 
-
-void Cliente::printAllCliente(void)
-{
-    Cliente *client = new Cliente;
-    client->loadCliente();
-
-    vector<Cliente>::iterator it = myvetor.begin();
-    while(it != myvetor.end()) 
-    {
-       cout << "Nome: " << it->getClienteName() << "\n" << "CPF: " << it->getClienteCpf() << "\n" << "Telefone: " << it->getClienteFone() << "\n" << "Data de Entrada: " << it->getClienteDataEntrada() << "\n" << "Saldo: " << it->getClienteSaldo() << endl;
-       it++;
-    }
-    
-}
-
- 
-void Cliente::loadCliente(void)
+//método - Cliente - retorna vector com todos os clientes salvos em txt
+vector<Cliente> *Cliente::loadCliente(void)
  {
+    vector <Cliente> *vetorAux;
     string line;
     double val;
     char *aux_str;
-    Cliente *aux = new Cliente;
     ifstream myfile ("example.txt");
     if (myfile.is_open())
     {
         while (!myfile.eof() )
         {
+            Cliente *aux = new Cliente;
+
             getline(myfile,line);
             aux->setClienteNome(line);
             getline (myfile,line);
@@ -209,25 +142,25 @@ void Cliente::loadCliente(void)
             getline (myfile,line);
             val = atof(line.c_str());
             aux->setClienteSaldo(val);
-            myvetor.push_back(*aux); // leio do arq de texto e jogo no vector
-            
+            vetorAux->push_back(*aux); // leio do arq de texto e jogo no vector
+        
         }
     myfile.close();
   }else cout << "Unable to open file"; 
+  return vetorAux;
 }
 
-
-
-
+//Método cliente
 void Cliente::consultaCliente(void)
 {
     Cliente *client = new Cliente;
     bool consut = true, flag = false;
     string nome;
     int i = 0, opc;
-
-    client->loadCliente();
-    vector<Cliente>::iterator it = myvetor.begin();
+    vector<Cliente> *vectorAux;
+    vectorAux = client->loadCliente();
+    vector<Cliente>::iterator it = vectorAux->begin();
+    
     do
     {    
         cout <<"Nome do Cliente: ";
@@ -251,12 +184,13 @@ void Cliente::consultaCliente(void)
                 consut = false;
             system("clear");
             //consertar o print
-            it = myvetor.begin();
+            it = vectorAux->begin();
     }while(consut);
 }
 
+//Método Cliente
 
-void Cliente::frontClienteAdd()
+void Cliente::frontClienteAdd(void)
 {
     Cliente *client = new Cliente();
         bool insert = true;
@@ -290,21 +224,19 @@ void Cliente::frontClienteAdd()
         }while(insert);
 }
 
-/*void Cliente::ler (void){
-    string line;
-    ifstream myfile ("example.txt");
-    if (myfile.is_open())
+//Método cliente
+void Cliente::printAllCliente(void)
+{
+    Cliente *client = new Cliente;
+    client->loadCliente();
+
+    vector<Cliente>::iterator it = myvetor.begin();
+    while(it != myvetor.end()) 
     {
-        while (! myfile.eof() )
-        {
-            getline (myfile,line);
-            cout << line << endl;
-            
-        }
-    myfile.close();
-  }
+       cout << "Nome: " << it->getClienteName() << "\n" << "CPF: " << it->getClienteCpf() << "\n" << "Telefone: " << it->getClienteFone() << "\n" << "Data de Entrada: " << it->getClienteDataEntrada() << "\n" << "Saldo: " << it->getClienteSaldo() << endl;
+       it++;
+    }
+    
+}
 
-  else cout << "Unable to open file"; 
-}*/
-
-#endif 
+#endif

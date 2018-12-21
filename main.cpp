@@ -1,5 +1,5 @@
 #include <iostream>
-#include "biblioteca.h"
+#include "biblioteca2.h"
 
 using namespace std;
 
@@ -28,12 +28,12 @@ int main(int argc, char const *argv[])
         case 3:
             client->printAllCliente();
             break;
-        case 4:
+        /*case 4:
             if (client->addClienteCompra())
                 break;
             else
                 cout << "Erro ao efetuar Compra" << endl;
-                break;  
+                break;  */
     }      
     return 0;
 }
