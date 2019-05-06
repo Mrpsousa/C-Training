@@ -34,7 +34,7 @@ class record
         
         void show() //display data
         {
-            cout << "\n Key :" << key << "\t" << "Data :" << data;
+            cout << "\n Key :" << key << "\t" << "Data :" << data << endl;
         }
 
         int rt_key(){ return key; } //return key to search
@@ -50,21 +50,31 @@ int main()
     {
         menu();
         cin >> choice;
+        system("clear");
         switch (choice)
         {
             case 1: // saving the data to file
             {
                 obj.input();
-                file.open("data", ios::out | ios::app);
+                file.open("data", ios::out | ios::app | ios::binary);
                 file.write((char*) &obj, sizeof(obj)); //make saving in bin mode
+                file.close();
                 system("clear");
                 cout << "Data written succesfully";
+                obj.show();
+                cout << "\n";
                 getchar();
                 //need to fix and put a "system("pause")" here
                 break;
             }
-            case 2:
+            case 2: // display / show all records from the file
             {
+                file.open("data",ios::in);
+                while (file.read((char*) &obj, sizeof(obj)))
+                {
+                    obj.show();
+                }
+                getchar();
                 break;
             }
             case 3:
