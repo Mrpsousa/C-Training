@@ -79,7 +79,29 @@ int main()
             }
             case 3:
             {
-                break;
+                int k, flag = 0;
+                system("clear");
+                cout << "Enter the record you want to search: ";
+                cin >> k;
+                file.open("data", ios::in | ios::binary);
+                while(file.read((char*) & obj, sizeof(obj)))
+                {
+                    if(obj.rt_key() == k)
+                    {
+                        obj.show();
+                        file.close();
+                        flag = 1;
+                        break;
+                        
+                    }
+                }
+                file.close();
+                if(flag == 0)
+                {
+                    cout << "Sorry record not found \n";
+                    getchar();
+                    break;
+                }else{  cout << " Found with sucess \n";}
             }
             case 4:
             {
