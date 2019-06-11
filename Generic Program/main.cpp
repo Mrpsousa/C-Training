@@ -105,7 +105,38 @@ int main()
             }
             case 4:
             {
-                break;
+                int k, flag = 0;
+                char ch;
+                system("clear");
+                cout << "Enter the record(key filed)you want to modify/edit: ";
+                cin >> k;
+                file.open("data", ios::in | ios::out | ios::binary);
+                while(file.read((char*) & obj, sizeof(obj)) && (flag == 0))
+                {
+                    if(obj.rt_key() == k)
+                    {
+                        cout << "key found with following details \n";
+                        obj.show();
+                        cout <<"\n";
+                        cout << "Do You want to still edit - Y or N - \n";
+                        cin >> ch;
+                        if(ch=='y' || ch=='Y')
+                        {
+                            file.seekp(-1 * sizeof(obj), ios::cur);
+                            obj.input();//initializing the object with new data
+                            file.write((char*)&obj, sizeof(obj));
+                            flag = 1;
+                            
+                        }else{
+                            break;
+                        }
+                    }
+                }
+                if(flag == 1)
+                    cout << "Change sucess";
+                else
+                    cout << "can't find ur record";
+                
             }
             case 5:
             {
@@ -125,6 +156,8 @@ int main()
 
 void menu()
 {
+    cout << "\n";
+    cout << "-------------------------------------------";
     cout << "\nWelcome to the project development \n";
     cout << "\nPlease enter te following option to operate:\n";
     cout << "\nPress 1: to save record \n";
